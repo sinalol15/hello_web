@@ -27,7 +27,7 @@
         <label>비밀번호확인 : </label>   <input type="password" id="userpassword2" name="userpassword2" required="required"><br/>
         <label>이름 : </label>   <input type="text" id="username" name="username" value="${user.username}"><br/>
         <label>나이: </label>    <input type="text" id="userage" name="userage" value="${user.userage}"><br/>
-        <label>이메일: </label>  <input type="text" id="usermail" name="usermail" value="${user.usermail}"><br/>
+        <label>이메일: </label>  <input type="text" id="useremail" name="useremail" value="${user.useremail}"><br/>
     <div>
         <input type="submit" value="수정">
         <a href="user.do?action=view&userid=${user.userid}">취소</a>

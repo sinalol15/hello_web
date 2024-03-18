@@ -12,19 +12,26 @@ public class UserVO {
 	private String userpassword;
 	private String username;
 	private int    userage;
-	private String usermail;
+	private String useremail;
 	
 	private String userpassword2;
 	//실행 명령 필드 
 	private String action;
 
-	public UserVO(String userid, String userpassword, String username, int userage, String usermail) {
+	//검색키
+	private String searchKey;
+	
+	public UserVO(String userid, String userpassword, String username, int userage, String useremail) {
 		super();
 		this.userid = userid;
 		this.userpassword = userpassword;
 		this.username = username;
 		this.userage = userage;
-		this.usermail = usermail;
+		this.useremail = useremail;
+	}
+	
+	public boolean isEmptySearchKey() {
+		return searchKey == null || searchKey.length() == 0; 
 	}
 	
 }

@@ -62,7 +62,7 @@ public class HelloServlet extends HttpServlet {
 		users.setUserpassword("1004");
 		users.setUsername("홍길동");
 		users.setUserage(10);
-		users.setUsermail("hong@naver.com");
+		users.setUseremail("hong@naver.com");
 		
 		//배열로 객체 설정 
 		List<Users> list = new ArrayList<>();
@@ -72,7 +72,7 @@ public class HelloServlet extends HttpServlet {
 			obj.setUserpassword("1004");
 			obj.setUsername("홍길동" + i);
 			obj.setUserage(10 + i);
-			obj.setUsermail("hong@naver.com");
+			obj.setUseremail("hong@naver.com");
 //			if (i % 2 == 0) {
 //				obj.setNumberLabel("짝수");
 //			} else {

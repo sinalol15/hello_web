@@ -67,12 +67,6 @@ public class BoardsServlet extends HttpServlet {
       
       //2. jsp출력할 값 설정
       request.setAttribute("list", list);
-      
-      //3. jsp 포워딩 
-      //포워딩 
-//      RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users/list.jsp");
-//      rd.forward(request, response);
-      
    }
    
    private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,12 +77,6 @@ public class BoardsServlet extends HttpServlet {
 	      
 	      //2. jsp출력할 값 설정
 	      request.setAttribute("board", board);
-	      
-	      //3. jsp 포워딩 
-	      //포워딩 
-//	      RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users/list.jsp");
-//	      rd.forward(request, response);
-	      
    }
    
    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -100,12 +88,6 @@ public class BoardsServlet extends HttpServlet {
 	      
 	      //2. jsp출력할 값 설정
 	      request.setAttribute("board", board);
-	      
-	      //3. jsp 포워딩 
-	      //포워딩 
-//	      RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users/list.jsp");
-//	      rd.forward(request, response);
-	      
    }
    
    private void updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -132,14 +114,10 @@ public class BoardsServlet extends HttpServlet {
 	      
 	      //2. jsp출력할 값 설정
 	      request.setAttribute("board", boards);
-	      
-	      //3. jsp 포워딩
-   }
+	      }
    
    private void insertForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	      System.out.println("입력 양식");
-	      //2. jsp출력할 값 설정	      
-	      //3. jsp 포워딩
    }
    
    private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

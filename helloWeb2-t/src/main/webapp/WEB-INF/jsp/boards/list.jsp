@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>User Information</title>
+    <title>게시물 목록</title>
     <style>
         table {
             width: 100%;
@@ -35,50 +35,40 @@
     </style>
 </head>
 <body>
-	<h1>회원목록</h1>
+	<h1>게시물목록</h1>
 	  
-    <form id="searchForm" action="list.jsp" method="get" >
-    	<label>이름 : </label>
+    <form id="searchForm" action="boards" method="post" >
+    	<input type="hidden" id="action" name="action" value="list">
+    	<label>제목</label>
     	<input type="text" id="searchKey" name="searchKey" value="${param.searchKey}">
     	<input type="submit" value="검색">
     </form>
     
-    <form id="listForm" action="user.do" method="post">
+    <form id="listForm" action="boards" method="post">
     	<input type="hidden" id="action" name="action" value="view">
-    	<input type="hidden" id="userid" name="userid" >
+    	<input type="hidden" id="bno" name="bno" >
     </form>
-<!--     
-    <form id="listForm2" action="users" method="get">
-    	<input type="hidden" id="action" name="action" value="view">
-    	<input type="hidden" id="userid" name="userid" >
-    </form>
-    <form id="listForm3" action="users?action=view" method="get">
-    	<input type="hidden" id="userid" name="userid" >
-    </form>
-    <form id="listForm3" action="users?action=view" method="post">
-    	<input type="hidden" id="userid" name="userid" >
-    </form>
- -->    
+   
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>이름</th>
-            <th>나이</th>
-            <th>이메일</th>
+            <th>게시물번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
         </tr>
-        <c:forEach var="user" items="${list}">
+        <c:forEach var="board" items="${list}">
         <tr>
-            <td onclick="jsView('${user.userid}')"  style="cursor:pointer;">${user.userid}</td>
-            <td><a href="user.do?action=view&userid=${user.userid}">${user.username}</a></td>
-            <td>${user.userage}</td>
-            <td>${user.useremail}</td>
+            <td onclick="jsView('${board.bno}')"  style="cursor:pointer;">${board.bno}</td>
+            <td><a href="boards?action=view&bno=${board.bno}">${board.btitle}</a></td>
+            <td>${board.bwriter}</td>
+            <td>${board.bdate}</td>
         </tr>
         </c:forEach>
     </table>
 <script>
-function jsView(uid) {
+function jsView(bno) {
 	//인자의 값을 설정한다 
-	userid.value = uid;
+	bno.value = bno;
 	
 	//양식을 통해서 서버의 URL로 값을 전달한다
 	listForm.submit();
@@ -86,7 +76,7 @@ function jsView(uid) {
 }
 </script>      
     <div class="button-container">
-        <a href="user.do?action=insertForm">등록</a>
+        <a href="boards?action=insertForm">등록</a>
     </div>
 </body>
 </html>

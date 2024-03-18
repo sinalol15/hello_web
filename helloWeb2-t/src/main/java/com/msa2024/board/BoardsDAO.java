@@ -1,8 +1,9 @@
-package com.msa2024;
+package com.msa2024.board;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BoardsDAO {
     // 1. 게시물 목록 만들기
@@ -13,6 +14,7 @@ public class BoardsDAO {
     // 6. 등록 구현
     private static Connection conn = null;
     private static PreparedStatement boardListPstmt = null;
+    private static PreparedStatement boardListPstmt2 = null;
     private static PreparedStatement boardInsertPstmt = null;
     private static PreparedStatement boardDeletePstmt = null;
     private static PreparedStatement boardDetailPstmt = null;
@@ -36,13 +38,14 @@ public class BoardsDAO {
             System.out.println("연결 성공");
             conn.setAutoCommit(false);
 
-            boardListPstmt = conn.prepareStatement("select * from boards ORDER BY bno");
-            boardInsertPstmt = conn.prepareStatement("insert into boards (bno, btitle, bcontent, bwriter, bdate) values (seq_bno.nextval, ?, ?, ?,sysdate)");
-            boardDetailPstmt = conn.prepareStatement("select * from boards where bno=?");
+            boardListPstmt = conn.prepareStatement("select * from boards");
+            boardListPstmt2 = conn.prepareStatement("select * from boards where btitle like ?");
+            boardInsertPstmt = conn.prepareStatement("insert into boards (bno, btitle, bcontent, bwriter) values (seq_bno.nextval, ?, ?, ?)");
+            boardDetailPstmt = conn.prepareStatement("select * from boards where bno = ?");
             //delete 가 되지 않았던 이유: ? 개수에 맞춰서 setString() 을 해주어야 한다.
-            boardDeletePstmt = conn.prepareStatement("delete from boards where bno=?");
+            boardDeletePstmt = conn.prepareStatement("delete from boards where bno = ?");
             boardDeleteAllPstmt = conn.prepareStatement("delete from boards");
-            boardUpdatePstmt = conn.prepareStatement("update boards set bwriter=?, btitle=?, bcontent=? where bno=?");
+            boardUpdatePstmt = conn.prepareStatement("update boards set btitle = ?, bcontent = ? where bno = ?");
             // 5. 결과 처리
             // 6. 연결 해제
         } catch (ClassNotFoundException e) {
@@ -53,15 +56,23 @@ public class BoardsDAO {
         }
     }
 
-    public List<Boards> list() {
+    public List<Boards> list(String searchKey) {
         List<Boards> list = new ArrayList<>();
         try {
-            ResultSet rs = BoardsDAO.boardListPstmt.executeQuery();
+        	ResultSet rs = null;
+        	
+        	if (searchKey != null && searchKey.length() != 0) {
+        		boardListPstmt2.setString(1, "%" + searchKey + "%");
+        		rs = boardListPstmt2.executeQuery();
+        	} else {
+        		rs = boardListPstmt.executeQuery();
+        	}
+            
             while (rs.next()) {
-                Boards board = new Boards(rs.getInt("bno")
-                        , rs.getString("bwriter")
+                Boards board = new Boards(rs.getString("bno")
                         , rs.getString("btitle")
                         , rs.getString("bcontent")
+                        , rs.getString("bwriter")
                         , rs.getString("bdate"));
                 
                 list.add(board);
@@ -72,13 +83,12 @@ public class BoardsDAO {
         }
         return list;
     }
-    public int insert(Boards boards){
+    public int insert(Boards users){
         int updated = 0;
         try{
-        	boardInsertPstmt.setString(1, boards.getBwriter());
-        	boardInsertPstmt.setString(2, boards.getBtitle());
-        	boardInsertPstmt.setString(3, boards.getBcontent());
-            
+            boardInsertPstmt.setString(1, users.getBtitle());
+            boardInsertPstmt.setString(2, users.getBcontent());
+            boardInsertPstmt.setString(3, users.getBwriter());
             updated = boardInsertPstmt.executeUpdate();
             conn.commit();
         }catch (Exception e){
@@ -86,18 +96,18 @@ public class BoardsDAO {
         }
         return updated;
     }
-    public Boards read(int bno) {
+    public Boards read(String userid) {
 
         Boards board = null;
         try {
-        	boardDetailPstmt.setInt(1, bno);
+            boardDetailPstmt.setString(1, userid);
 
             ResultSet rs = boardDetailPstmt.executeQuery();
             if (rs.next()) {
-                board = new Boards(rs.getInt("bno")
-                        , rs.getString("bwriter")
+                board = new Boards(rs.getString("bno")
                         , rs.getString("btitle")
                         , rs.getString("bcontent")
+                        , rs.getString("bwriter")
                         , rs.getString("bdate"));
             }
             rs.close();
@@ -111,10 +121,9 @@ public class BoardsDAO {
     public int update(Boards board) {
         int updated = 0;
         try {
-        	boardUpdatePstmt.setString(1, board.getBwriter());
-        	boardUpdatePstmt.setString(2, board.getBtitle());
-        	boardUpdatePstmt.setString(3, board.getBcontent());
-        	boardUpdatePstmt.setInt(4, board.getBno());
+            boardUpdatePstmt.setString(1, board.getBtitle());
+            boardUpdatePstmt.setString(2, board.getBcontent());
+            boardUpdatePstmt.setString(3, board.getBno());
             updated = boardUpdatePstmt.executeUpdate();
             conn.commit();
         } catch (Exception e) {
@@ -124,11 +133,11 @@ public class BoardsDAO {
 
     }
 
-    public int delete(int bno) {
+    public int delete(String bno) {
         int updated = 0;
 
         try {
-        	boardDeletePstmt.setInt(1, bno);
+            boardDeletePstmt.setString(1, bno);
             updated = boardDeletePstmt.executeUpdate();
             conn.commit();
         } catch (Exception e) {
@@ -147,4 +156,5 @@ public class BoardsDAO {
         }
         return updated;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.msa2024;
+package com.msa2024.board;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class UsersServlet
  */
-public class UsersServlet extends HttpServlet {
+public class BoardsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
-	UsersDAO usersDAO = new UsersDAO();
+	BoardsDAO boardsDAO = new BoardsDAO();
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UsersServlet() {
+    public BoardsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -57,16 +57,16 @@ public class UsersServlet extends HttpServlet {
 		
 		//3. jsp 포워딩 
 		//포워딩 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users/"+action+".jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/boards/"+action+".jsp");
 		rd.forward(request, response);
 		
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("목록");
-		
+		String searchKey = request.getParameter("searchKey");
 		//1. 처리
-		List<Users> list = usersDAO.list();
+		List<Boards> list = boardsDAO.list(searchKey);
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("list", list);
@@ -75,19 +75,19 @@ public class UsersServlet extends HttpServlet {
 	
 	private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("상세보기");
-		String userid = request.getParameter("userid");
+		String bno = request.getParameter("bno");
 		//1. 처리
-		Users user = usersDAO.read(userid);
+		Boards board = boardsDAO.read(bno);
 		
 		//2. jsp출력할 값 설정
-		request.setAttribute("user", user);
+		request.setAttribute("board", board);
 	}
 	
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("삭제");
-		String userid = request.getParameter("userid");
+		String bno = request.getParameter("bno");
 		//1. 처리
-		int updated = usersDAO.delete(userid);
+		int updated = boardsDAO.delete(bno);
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
@@ -95,26 +95,24 @@ public class UsersServlet extends HttpServlet {
 	
 	private void updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("수정화면");
-		String userid = request.getParameter("userid");
+		String bno = request.getParameter("bno");
 		//1. 처리
-		Users user = usersDAO.read(userid);
+		Boards board = boardsDAO.read(bno);
 		
 		//2. jsp출력할 값 설정
-		request.setAttribute("user", user);
+		request.setAttribute("board", board);
 	}
 	
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("수정");
-		String userid = request.getParameter("userid");
-		String userpassword = request.getParameter("userpassword");
-		String username = request.getParameter("username");
-		String userage = request.getParameter("userage");
-		String useremail = request.getParameter("useremail");
+		String bno = request.getParameter("bno");
+		String btitle = request.getParameter("btitle");
+		String bcontent = request.getParameter("bcontent");
 		
-		Users user = new Users(userid, userpassword, username, Integer.parseInt(userage) , useremail);
+		Boards user = new Boards(bno, btitle, bcontent);
 		
 		//1. 처리
-		int updated = usersDAO.update(user);
+		int updated = boardsDAO.update(user);
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
@@ -129,16 +127,14 @@ public class UsersServlet extends HttpServlet {
 	
 	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("등록");
-		String userid = request.getParameter("userid");
-		String userpassword = request.getParameter("userpassword");
-		String username = request.getParameter("username");
-		String userage = request.getParameter("userage");
-		String useremail = request.getParameter("useremail");
+		String btitle = request.getParameter("btitle");
+		String bcontent = request.getParameter("bcontent");
+		String bwriter = request.getParameter("bwriter");
 		
-		Users user = new Users(userid, userpassword, username, Integer.parseInt(userage) , useremail);
+		Boards user = new Boards("", btitle, bcontent, bwriter, "");
 		
 		//1. 처리
-		int updated = usersDAO.insert(user);
+		int updated = boardsDAO.insert(user);
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);

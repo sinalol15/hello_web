@@ -35,7 +35,7 @@
 		<td>${user.userid}</td>
 		<td>${user.username}</td>
 		<td>${user.userage}</td>
-		<td>${user.usermail}</td>
+		<td>${user.useremail}</td>
 	</tr>
 </c:forEach>
 </table>

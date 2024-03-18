@@ -41,14 +41,14 @@ public class UsersDAO {
             conn.setAutoCommit(false);
 
             userListPstmt = conn.prepareStatement("select * from users");
-            userInsertPstmt = conn.prepareStatement("insert into users (userid, username, userpassword, userage, usermail) values (?, ?, ?, ?,?)");
+            userInsertPstmt = conn.prepareStatement("insert into users (userid, username, userpassword, userage, useremail) values (?, ?, ?, ?,?)");
             userDetailPstmt = conn.prepareStatement("select * from users where userid=?");
             userValidationIdPstmt = conn.prepareStatement("select userid from users where userid=?  ");
             userValidationPasswordPstmt  = conn.prepareStatement("select userpassword from users whrere userpassword=? ");
             //delete 가 되지 않았던 이유: ? 개수에 맞춰서 setString() 을 해주어야 한다.
             userDeletePstmt = conn.prepareStatement("delete from users where userid=?");
             userDeleteAllPstmt = conn.prepareStatement("delete from users");
-            userUpdatePstmt = conn.prepareStatement("update users set username=?, userpassword=?,userage=?, usermail=? where userid=?");
+            userUpdatePstmt = conn.prepareStatement("update users set username=?, userpassword=?,userage=?, useremail=? where userid=?");
             // 5. 결과 처리
             // 6. 연결 해제
         } catch (ClassNotFoundException e) {
@@ -68,7 +68,7 @@ public class UsersDAO {
                         , rs.getString("userpassword")
                         , rs.getString("username")
                         , rs.getInt("userage")
-                        , rs.getString("usermail"));
+                        , rs.getString("useremail"));
                 
                 list.add(users);
             }
@@ -85,7 +85,7 @@ public class UsersDAO {
             userInsertPstmt.setString(2, users.getUsername());
             userInsertPstmt.setString(3, users.getUserpassword());
             userInsertPstmt.setInt(4, users.getUserage());
-            userInsertPstmt.setString(5, users.getUsermail());
+            userInsertPstmt.setString(5, users.getUseremail());
             updated = userInsertPstmt.executeUpdate();
             conn.commit();
         }catch (Exception e){
@@ -105,7 +105,7 @@ public class UsersDAO {
                         , rs.getString("userpassword")
                         , rs.getString("username")
                         , rs.getInt("userage")
-                        , rs.getString("usermail"));
+                        , rs.getString("useremail"));
             }
             rs.close();
 
@@ -121,7 +121,7 @@ public class UsersDAO {
             userUpdatePstmt.setString(1, users.getUsername());
             userUpdatePstmt.setString(2, users.getUserpassword());
             userUpdatePstmt.setInt(3, users.getUserage());
-            userUpdatePstmt.setString(4, users.getUsermail());
+            userUpdatePstmt.setString(4, users.getUseremail());
             userUpdatePstmt.setString(5, users.getUserid());
             updated = userUpdatePstmt.executeUpdate();
             conn.commit();

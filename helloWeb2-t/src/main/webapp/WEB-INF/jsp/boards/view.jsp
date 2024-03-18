@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User insert form</title>
+    <title>게시물 상세보기</title>
     <style>
         label {
             display: inline-block;
@@ -20,13 +20,14 @@
 </head>
 <body>
     <h1>
-        view 임시 화면
+        게시물 상세보기
     </h1>
    
-      <label>아이디 : ${user.userid}</label> <br/>
-      <label>이름 : ${user.username}</label><br/>
-      <label>나이: ${user.userage}</label><br/>
-      <label>이메일: ${user.useremail}</label><br/>
+      <label>게시물 번호: ${board.bno}</label> <br/>
+      <label>제목 : ${board.btitle}</label><br/>
+      <label>내용 : ${board.bcontent}</label><br/>
+      <label>작성자 : ${board.bwriter}</label><br/>
+      <label>작성일 : ${board.bdate}</label><br/>
 
 <script>
 function jsDelete() {
@@ -50,29 +51,17 @@ function jsUpdateForm() {
 }
 </script>
 <!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
-	<form id="viewForm" method="post" action="user.do">
+	<form id="viewForm" method="post" action="boards">
 		<input type="hidden" id="action" name="action" value="">
-		<input type="hidden" name="userid" value="${user.userid}">
+		<input type="hidden" name="bno" value="${board.bno}">
 		<input type="button" value="삭제" onclick="jsDelete()">
 		<input type="button" value="수정" onclick="jsUpdateForm()">
 	</form>     
  
-	<form action="user.do" method="post">
-		<input type="hidden" name="action" value="delete">
-		<input type="hidden" name="userid" value="${user.userid}">
-		<input type="submit" value="삭제">
-	</form>     
-	
-	<form action="user.do" method="post">
-		<input type="hidden" name="action" value="updateForm">
-		<input type="hidden" name="userid" value="${user.userid}">
-		<input type="submit" value="수정">
-	</form>     
-	
     <div>
-        <a href="user.do?action=list">목록</a>
-        <a href="user.do?action=updateForm&userid=${user.userid}">수정</a>
-        <a href="user.do?action=delete&userid=${user.userid}">삭제</a>
+        <a href="boards?action=list">목록</a>
+        <a href="boards?action=updateForm&bno=${board.bno}">수정</a>
+        <a href="boards?action=delete&bno=${board.bno}">삭제</a>
     </div>
 </body>
 </html>

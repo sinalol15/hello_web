@@ -2,9 +2,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Index</title>
 </head>
 <body>
-<a href = "users?action=list">list</a>
+
+	<a href = "users?action=list">list</a>
+	
+	<h1 id="my"></h1>
+	
+	<script>
+	/**const person = {
+			  firstName: "John",
+			  lastName : "Doe",
+			  id       : 5566,
+			  fullName : function() {
+			    return this.firstName + " " + this.lastName;
+			  }
+			};
+			
+	document.getElementById("my").innerHTML = person.fullName();*/
+	
+	let text = '{"employees":[' +
+	'{"firstName":"John","lastName":"Doe" },' +S
+	'{"firstName":"Anna","lastName":"Smith" },' +
+	'{"firstName":"Peter","lastName":"Jones" }]}';
+	
+	const obj = JSON.parse(text);
+	document.getElementById("my").innerHTML =
+	obj.employees[1].firstName + " " + obj.employees[1].lastName;
+	</script>
+	
 </body>
 </html>

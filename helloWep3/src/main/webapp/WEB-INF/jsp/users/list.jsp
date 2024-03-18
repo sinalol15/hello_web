@@ -29,7 +29,7 @@
 	</style>
 </head>
 <body>
-    <h1>게시물 목록</h1>
+    <h1>게시물 목록</h1>
     
     <form id="listForm" action="users" method="post">
        <input type="hidden" id="action" name="action" value = "view">

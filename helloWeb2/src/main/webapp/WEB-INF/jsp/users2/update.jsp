@@ -1,13 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Update</title>
+    <meta charset="UTF-8">
+    <title>Update</title>
+    <style>
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+        input {
+            margin-bottom: 10px; 
+        }
+    </style>
 </head>
 <body>
 	회원 정보 수정<br>
@@ -28,7 +37,7 @@
 		}
 	</script>
 	
-	<form id="update" action="users" method="post">
+	<form id="update" action="user.do" method="post">
 		<input type="hidden" id = "action" name="action" value="">
 		<input type="hidden" name="userid" value="${param.userid}">
 		<input type="button" value="목록" onclick="jsList()">
@@ -37,3 +46,4 @@
 	
 </body>
 </html>
+

@@ -4,16 +4,28 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Insert</title>
+    <meta charset="UTF-8">
+    <title>등록</title>
+    <style>
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+        input {
+            margin-bottom: 10px; 
+        }
+    </style>
 </head>
 <body>
-	<c:if test="${not empty user}">
-		회원 정보 등록<br>
+    <h1>
+        등록 결과 화면
+    </h1>
+	<c:if test="${updated != 0}">
+		등록되었습니다 
 	</c:if>
-
+	
 	<form action="users" method="post">
 		<input type="hidden" name="action" value="list">
 		<input type="submit" value="목록">
@@ -22,5 +34,7 @@
 		<input type="hidden" name="action" value="view">
 		<input type="submit" value="상세보기">
 	</form> 
+	
 </body>
 </html>
+

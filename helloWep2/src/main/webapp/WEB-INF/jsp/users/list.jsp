@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>User Information</title>
+    <title>List</title>
     <style>
 		th, td {
 		  border: 1px solid;

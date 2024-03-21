@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Delete</title>
 </head>
 <body>
 <form action = "users" method = "post">

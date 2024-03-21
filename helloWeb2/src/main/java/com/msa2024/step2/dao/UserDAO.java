@@ -20,6 +20,8 @@ public class UserDAO {
     private static PreparedStatement userInsertPstmt = null;
     private static PreparedStatement userDeletePstmt = null;
     private static PreparedStatement userDetailPstmt = null;
+    private static PreparedStatement userFromUUIDPstmt = null; //uuid를 이용하여 사용자 정보를 얻는다.
+    private static PreparedStatement userUpdateUUIDPstmt = null; //userid 이용하여 uuid를 변경한다.
 
     private static PreparedStatement userUpdatePstmt = null;
     private static PreparedStatement userDeleteAllPstmt = null;
@@ -47,7 +49,11 @@ public class UserDAO {
             userListPstmt2 = conn.prepareStatement("select * from users where username like ? order by userid");
             userInsertPstmt = conn.prepareStatement("insert into users (userid, username, userpassword, userage, usermail) values (?, ?, ?, ?,?)");
             userDetailPstmt = conn.prepareStatement("select * from users where userid=?");
-            userValidationIdPstmt = conn.prepareStatement("select userid from users where userid=?  ");
+            
+            userFromUUIDPstmt = conn.prepareStatement("select * from users where useruuid=?");
+            userUpdateUUIDPstmt = conn.prepareStatement("update users set useruuid=? where userid=?");
+            
+            userValidationIdPstmt = conn.prepareStatement("select userid from users where userid=?");
             userValidationPasswordPstmt  = conn.prepareStatement("select userpassword from users whrere userpassword=? ");
             //delete 가 되지 않았던 이유: ? 개수에 맞춰서 setString() 을 해주어야 한다.
             userDeletePstmt = conn.prepareStatement("delete from users where userid=?");
@@ -195,5 +201,41 @@ public class UserDAO {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public int updateUUID(UserVO users) {
+    	int updated = 0;
+    	try {
+    		userUpdateUUIDPstmt.setString(1, users.getUseruuid());
+    		userUpdateUUIDPstmt.setString(2, users.getUserid());
+    		updated = userUpdateUUIDPstmt.executeUpdate();
+    		conn.commit();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return updated;
+    }
+    
+    public UserVO getUserVOFromUUID(UserVO user) {
+    	UserVO users = null;
+    	try {
+    		userFromUUIDPstmt.setString(1, user.getUseruuid());;
+    		
+    		ResultSet rs = userFromUUIDPstmt.executeQuery();
+    		if (rs.next()) {
+    			users = UserVO.builder()
+                		.userid(rs.getString("userid"))
+                		.userpassword(rs.getString("userpassword"))
+                		.username(rs.getString("username"))
+                		.userage(rs.getInt("userage"))
+                		.usermail(rs.getString("usermail"))
+                		.useruuid(rs.getString("useruuid"))
+                		.build();
+    		}
+    		rs.close();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return users;
     }
 }

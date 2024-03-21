@@ -25,12 +25,7 @@ public class BoardVO {
 	}
 	
 	public BoardVO(int bno, String btitle, String bcontent, String bwriter, String bdate) {
-		super();
-		this.bno = bno;
-		this.btitle = btitle;
-		this.bcontent = bcontent;
-		this.bwriter = bwriter;
-		this.bdate = bdate;
+		this(bno, btitle, bcontent, bwriter, bdate, "", "");
 	}
 	
 	public BoardVO(int bno, String btitle, String bcontent, String bwriter) {

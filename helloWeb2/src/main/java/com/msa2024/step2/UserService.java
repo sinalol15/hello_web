@@ -59,15 +59,7 @@ public class UserService  {
 		return usersDAO.insert(user);
 	}
 	
+	public void updateUUID(UserVO userVO) {
+		usersDAO.updateUUID(userVO);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -40,7 +40,7 @@
     
     <form id="listForm" action="boards" method="post">
     	<input type="hidden" id="action" name="action" value="view">
-    	<input type="hidden" id="bno" name="bno" >
+    	<input type="hidden" id="bno" name="bno">
     </form>
    
     <table>
@@ -71,6 +71,7 @@ function jsView(bn) {
 </script>      
 <form action = "boards" method = "post">
 	<input type = "hidden" name = "action" value="insertForm">
+	<input type = "hidden" name = "bwriter" value="${loginVO.username}">
 	<input type = "submit" value = "등록">
 </form>
 </body>

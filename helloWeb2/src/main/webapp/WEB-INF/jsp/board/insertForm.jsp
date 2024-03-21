@@ -25,7 +25,7 @@
     	<input type="hidden" name="action" value="insert">
         <label>제목 : </label><input type="text" id="btitle" name="btitle" ><br/>
         <label>내용 : </label><input type="text" id="bcontent" name="bcontent" ><br/>
-        <input type="hidden" id="bwriter" name="bwriter" value="${loginVO.username}><br/>
+        <input type="hidden" id="bwriter" name="bwriter" value="${loginVO.username}"><br/>
     <div>
         <input type="submit" value="등록">
         <a href="boards?action=list">취소</a>

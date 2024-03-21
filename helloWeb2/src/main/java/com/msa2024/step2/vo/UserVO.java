@@ -1,12 +1,14 @@
 package com.msa2024.step2.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserVO {
 	private String userid;
 	private String userpassword;
@@ -21,6 +23,12 @@ public class UserVO {
 
 	//검색키
 	private String searchKey;
+	
+	//uuid
+	private String useruuid;
+	
+	//자동로그인 여부
+	private String autologin;
 	
 	public UserVO(String userid, String userpassword, String username, int userage, String usermail) {
 		super();
@@ -39,5 +47,4 @@ public class UserVO {
 		return userVO != null && userpassword.equals(userVO.getUserpassword()); 
 
 	}
-	
 }

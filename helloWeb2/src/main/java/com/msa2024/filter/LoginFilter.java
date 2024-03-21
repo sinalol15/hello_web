@@ -11,12 +11,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.msa2024.step2.dao.UserDAO;
 import com.msa2024.step2.vo.UserVO;
 
 /**
@@ -24,7 +26,8 @@ import com.msa2024.step2.vo.UserVO;
  */
 @WebFilter("*.do")
 public class LoginFilter extends HttpFilter implements Filter {
-       
+	UserDAO usersDAO = new UserDAO();
+
     /**
      * @see HttpFilter#HttpFilter()
      */
@@ -49,7 +52,6 @@ public class LoginFilter extends HttpFilter implements Filter {
 			HttpServletResponse resp = (HttpServletResponse) response;
 			HttpSession session = req.getSession();
 			UserVO loginVO = (UserVO) session.getAttribute("loginVO");
-			String contentType = request.getContentType();
 			String url = req.getRequestURI();
 			String action = req.getParameter("action");
 			Set<String> actionSet = new HashSet<String>();
@@ -62,6 +64,26 @@ public class LoginFilter extends HttpFilter implements Filter {
 			System.out.println("url = " + url);
 			if (!url.equals("/helloWeb2/user.do") || !actionSet.contains(action)) {
 				if (loginVO == null) {
+					
+					//1. uuid 쿠키를 찾는다.
+					Cookie[] cookies = req.getCookies();
+					if (cookies != null) {
+						for (Cookie cookie : cookies) {
+							if (cookie.getName().equals("uuidCookie")) {
+								//2. uuid값을 이용하여 로그인 정보를 얻는다.
+								UserVO userVO = UserVO.builder().useruuid(cookie.getValue()).build();
+								loginVO = usersDAO.getUserVOFromUUID(userVO);
+								//3. 로그인 정보를 세션에 기록한다.
+								if (loginVO != null) {
+									session.setAttribute("loginVO", loginVO);
+									chain.doFilter(request, response);
+								} else {
+									resp.sendRedirect(req.getContextPath() + "/user.do?action=loginForm");
+								}
+								return;
+							}
+						}
+					}
 					resp.sendRedirect(req.getContextPath() + "/user.do?action=loginForm");
 					return;
 				}

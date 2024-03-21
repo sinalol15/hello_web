@@ -99,13 +99,13 @@ public class BoardDAO {
     }
     public BoardVO read(BoardVO user) {
 
-        BoardVO boards = null;
+        BoardVO board = null;
         try {
             boardDetailPstmt.setInt(1, user.getBno());
 
             ResultSet rs = boardDetailPstmt.executeQuery();
             if (rs.next()) {
-                boards = new BoardVO(rs.getInt("bno")
+                board = new BoardVO(rs.getInt("bno")
                         , rs.getString("btitle")
                         , rs.getString("bcontent")
                         , rs.getString("bwriter")
@@ -116,7 +116,7 @@ public class BoardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return boards;
+        return board;
     }
 
     public int update(BoardVO board) {
